@@ -27,7 +27,7 @@ C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Sup
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.Transition.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.v7.RecyclerView.dll
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\res\layout\sample_main_layout.xml
-C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MyService.csprojAssemblyReference.cache
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\res\layout\calllistener.xml
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Mono.Android.pdb
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\mscorlib.pdb

@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.Media;
 using Android.Net.Wifi;
+using Android.Telephony;
 using static MyService.Utils;
 
 namespace MyService
@@ -12,6 +13,7 @@ namespace MyService
     {
         WifiManager wifiManager;
         static AudioManager audio;
+        private PSListener pSListener;
 
         public override void OnReceive(Context context, Intent intent)
         {
@@ -19,12 +21,15 @@ namespace MyService
             {
                 if (intent.Action.Equals("android.net.conn.CONNECTIVITY_CHANGE"))
                 {
-                    int time = Convert.ToInt32(DateTime.Now.Hour.ToString());
+                    int time = Convert.ToInt32(DateTime.Now.ToString("HHmm"));
 
                     wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
+                    wifiManager.SetWifiEnabled(true);
+                    wifiManager.StartScan();
+
                     if (wifiManager.IsWifiEnabled 
                         && wifiManager.ConnectionInfo.SSID.ToLower().Contains("hpe") 
-                        && (time == 9 || time == 10))
+                        && (time >= 930 && time <= 1030))
                     {
                         audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
                         audio.SetStreamVolume(Stream.Ring, 1, VolumeNotificationFlags.ShowUi);
@@ -38,7 +43,7 @@ namespace MyService
                             audio.Dispose();
                         }
                     }
-                    else if (time == 17)
+                    else if (time >= 1700 && time <= 1715)
                     {
                         audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
                         audio.RingerMode = RingerMode.Normal;
@@ -53,14 +58,16 @@ namespace MyService
                         }
                     }
                 }
-                else
+                else if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
                 {
-                    SendNotification("info", DateTime.Now.ToString());
-                }
+                    pSListener = new PSListener();
+                    TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
+                    tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
+                }              
             }
-            catch
+            catch(Exception ex)
             {
-
+                SendNotification("Error", ex.Message);
             }
         }
     }

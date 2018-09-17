@@ -2,7 +2,7 @@
 <xs:schema xmlns:tools="http://schemas.android.com/tools" attributeFormDefault="qualified" targetNamespace="http://schemas.android.com/tools" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>7/30/2018 10:56:23 PM</xs:documentation>
+    <xs:documentation>9/17/2018 8:54:40 PM</xs:documentation>
   </xs:annotation>
   <xs:attribute name="layout">
     <xs:annotation>
@@ -39,6 +39,7 @@
             <xs:enumeration value="@layout/abc_search_dropdown_item_icons_2line" />
             <xs:enumeration value="@layout/abc_search_view" />
             <xs:enumeration value="@layout/abc_select_dialog_material" />
+            <xs:enumeration value="@layout/calllistener" />
             <xs:enumeration value="@layout/design_bottom_navigation_item" />
             <xs:enumeration value="@layout/design_bottom_sheet_dialog" />
             <xs:enumeration value="@layout/design_layout_snackbar" />
@@ -138,6 +139,7 @@
             <xs:enumeration value="@layout/abc_search_dropdown_item_icons_2line" />
             <xs:enumeration value="@layout/abc_search_view" />
             <xs:enumeration value="@layout/abc_select_dialog_material" />
+            <xs:enumeration value="@layout/calllistener" />
             <xs:enumeration value="@layout/design_bottom_navigation_item" />
             <xs:enumeration value="@layout/design_bottom_sheet_dialog" />
             <xs:enumeration value="@layout/design_layout_snackbar" />
@@ -237,6 +239,7 @@
             <xs:enumeration value="@layout/abc_search_dropdown_item_icons_2line" />
             <xs:enumeration value="@layout/abc_search_view" />
             <xs:enumeration value="@layout/abc_select_dialog_material" />
+            <xs:enumeration value="@layout/calllistener" />
             <xs:enumeration value="@layout/design_bottom_navigation_item" />
             <xs:enumeration value="@layout/design_bottom_sheet_dialog" />
             <xs:enumeration value="@layout/design_layout_snackbar" />
@@ -336,6 +339,7 @@
             <xs:enumeration value="@layout/abc_search_dropdown_item_icons_2line" />
             <xs:enumeration value="@layout/abc_search_view" />
             <xs:enumeration value="@layout/abc_select_dialog_material" />
+            <xs:enumeration value="@layout/calllistener" />
             <xs:enumeration value="@layout/design_bottom_navigation_item" />
             <xs:enumeration value="@layout/design_bottom_sheet_dialog" />
             <xs:enumeration value="@layout/design_layout_snackbar" />

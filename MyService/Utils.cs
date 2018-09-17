@@ -18,7 +18,7 @@ namespace MyService
             mBuilder.SetAutoCancel(true);
             mBuilder.SetLargeIcon(BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.widgetView));
             mBuilder.SetStyle(new Notification.BigTextStyle().BigText(msgtxt));
-           
+            
             mNotificationManager = NotificationManager.FromContext(Application.Context);
             mNotificationManager.Notify(Convert.ToInt32(DateTime.Now.ToString("hhmmss")), mBuilder.Build());
 

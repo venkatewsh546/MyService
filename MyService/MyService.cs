@@ -6,6 +6,7 @@ using Android.Hardware;
 using Android.Media;
 using Android.OS;
 using Android.Runtime;
+using Android.Telephony;
 using Android.Widget;
 
 namespace MyService
@@ -18,7 +19,7 @@ namespace MyService
         SensorManager mSensorManager;
         Sensor mProximity;
         PowerManager powerManager;
-        static PowerManager.WakeLock wakeLock;
+        static public PowerManager.WakeLock wakeLock;
         static Timer timer;
         AudioManager audioManager;
 
@@ -53,7 +54,9 @@ namespace MyService
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.AddAction(Intent.ActionBootCompleted);
             intentFilter.AddAction("android.net.conn.CONNECTIVITY_CHANGE");
-            
+            intentFilter.AddAction("android.intent.action.PHONE_STATE");
+
+
             intentFilter.Priority = 100;
 
             if (bcReceiver != null)
@@ -78,6 +81,8 @@ namespace MyService
 
         public void OnSensorChanged(SensorEvent e)
         {
+            return;
+
             Boolean iswiredheadset = false;
 
             try
@@ -144,8 +149,8 @@ namespace MyService
 
         private void Runtask(object sender, ElapsedEventArgs e)
         {
-            wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
-            wakeLock.Acquire();
+           // wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
+           // wakeLock.Acquire();
         }
 
         public void UnhandleException(object sender, UnhandledExceptionEventArgs e)

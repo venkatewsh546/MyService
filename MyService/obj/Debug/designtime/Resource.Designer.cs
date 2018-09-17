@@ -2366,8 +2366,8 @@ namespace MyService
 			// aapt resource value: 0x7F0C0013
 			public const int homeAsUp = 2131492883;
 			
-			// aapt resource value: 0x7F020003
-			public const int HomeButton = 2130837507;
+			// aapt resource value: 0x7F030003
+			public const int HomeButton = 2130903043;
 			
 			// aapt resource value: 0x7F0C0049
 			public const int icon = 2131492937;
@@ -2405,8 +2405,8 @@ namespace MyService
 			// aapt resource value: 0x7F0C0048
 			public const int list_item = 2131492936;
 			
-			// aapt resource value: 0x7F020006
-			public const int log_fragment = 2130837510;
+			// aapt resource value: 0x7F030006
+			public const int log_fragment = 2130903046;
 			
 			// aapt resource value: 0x7F0C0099
 			public const int masked = 2131493017;
@@ -2444,8 +2444,8 @@ namespace MyService
 			// aapt resource value: 0x7F0C0089
 			public const int notification_main_column_container = 2131493001;
 			
-			// aapt resource value: 0x7F020002
-			public const int OfficeButton = 2130837506;
+			// aapt resource value: 0x7F030002
+			public const int OfficeButton = 2130903042;
 			
 			// aapt resource value: 0x7F0C0030
 			public const int parallax = 2131492912;
@@ -2474,14 +2474,14 @@ namespace MyService
 			// aapt resource value: 0x7F0C008B
 			public const int right_side = 2131493003;
 			
-			// aapt resource value: 0x7F020007
-			public const int sample_content_fragment = 2130837511;
+			// aapt resource value: 0x7F030007
+			public const int sample_content_fragment = 2130903047;
 			
-			// aapt resource value: 0x7F020004
-			public const int sample_main_layout = 2130837508;
+			// aapt resource value: 0x7F030004
+			public const int sample_main_layout = 2130903044;
 			
-			// aapt resource value: 0x7F020005
-			public const int sample_output = 2130837509;
+			// aapt resource value: 0x7F030005
+			public const int sample_output = 2130903045;
 			
 			// aapt resource value: 0x7F0C001F
 			public const int screen = 2131492895;
@@ -2788,6 +2788,9 @@ namespace MyService
 			// aapt resource value: 0x7F03001A
 			public const int abc_select_dialog_material = 2130903066;
 			
+			// aapt resource value: 0x7F020002
+			public const int callListener = 2130837506;
+			
 			// aapt resource value: 0x7F03001B
 			public const int design_bottom_navigation_item = 2130903067;
 			
@@ -2830,8 +2833,8 @@ namespace MyService
 			// aapt resource value: 0x7F030028
 			public const int design_text_input_password_icon = 2130903080;
 			
-			// aapt resource value: 0x7F030002
-			public const int Main = 2130903042;
+			// aapt resource value: 0x7F020003
+			public const int Main = 2130837507;
 			
 			// aapt resource value: 0x7F030029
 			public const int notification_action = 2130903081;
@@ -2878,8 +2881,8 @@ namespace MyService
 			// aapt resource value: 0x7F030037
 			public const int notification_template_part_time = 2130903095;
 			
-			// aapt resource value: 0x7F030003
-			public const int sample_main_layout = 2130903043;
+			// aapt resource value: 0x7F020004
+			public const int sample_main_layout = 2130837508;
 			
 			// aapt resource value: 0x7F030038
 			public const int select_dialog_item_material = 2130903096;

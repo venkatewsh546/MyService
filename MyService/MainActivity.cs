@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Widget;
 using Android.Support.Design.Widget;
 using Android.Views;
+using Android.App.Admin;
 
 namespace MyService
 {
@@ -44,24 +45,30 @@ namespace MyService
 
             if (CheckSelfPermission(Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
             {
-                
+
                 //set alert for executing the task
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.SetTitle("requesting storage permissions");
                 alert.SetMessage("requesting storage permissions");
-                alert.SetPositiveButton("ok", (senderAlert, args) => {
+                alert.SetPositiveButton("ok", (senderAlert, args) =>
+                {
                     RequestPermissions(new string[]
                     { Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage }, 0);
                 });
-                alert.SetNegativeButton("Cancel", (senderAlert, args) => {
+                alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
                     Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
                     System.Environment.Exit(0);
                 });
                 Dialog dialog = alert.Create();
                 dialog.Show();
-                // Finish();
 
             }
+            else
+            {
+                Finish();
+            }
+
         }
         
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
