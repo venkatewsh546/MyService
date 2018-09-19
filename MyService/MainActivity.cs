@@ -10,6 +10,9 @@ using Android.Widget;
 using Android.Support.Design.Widget;
 using Android.Views;
 using Android.App.Admin;
+using Android.Net.Wifi;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyService
 {
@@ -24,7 +27,6 @@ namespace MyService
             StartService(backgroundService);
 
             View layout = FindViewById(Resource.Id.sample_main_layout);
-
 
             string[] chkPermissions =
              {
@@ -66,7 +68,7 @@ namespace MyService
             }
             else
             {
-                Finish();
+               Finish();
             }
 
         }

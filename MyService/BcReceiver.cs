@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Media;
@@ -21,16 +23,22 @@ namespace MyService
             {
                 if (intent.Action.Equals("android.net.conn.CONNECTIVITY_CHANGE"))
                 {
-                    int time = Convert.ToInt32(DateTime.Now.ToString("HHmm"));
+                    int time = Convert.ToInt32(DateTime.Now.ToString("HH"));
 
-                    wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
-                    wifiManager.SetWifiEnabled(true);
-                    wifiManager.StartScan();
-
-                    if (wifiManager.IsWifiEnabled 
-                        && wifiManager.ConnectionInfo.SSID.ToLower().Contains("hpe") 
-                        && (time >= 930 && time <= 1030))
+                    if (time == 9)
                     {
+                        wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
+
+                        if (!wifiManager.IsWifiEnabled)
+                        {                            
+                            wifiManager.SetWifiEnabled(true);
+                        }
+
+                        IList<ScanResult> scanwifinetworks = wifiManager.ScanResults;
+                        var match = scanwifinetworks.Where(r => r.Ssid.ToLower().Contains("hpe")).FirstOrDefault();
+
+                        if (match != null)
+                        {
                         audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
                         audio.SetStreamVolume(Stream.Ring, 1, VolumeNotificationFlags.ShowUi);
                         audio.SetStreamVolume(Stream.Alarm, 0, VolumeNotificationFlags.ShowUi);
@@ -43,20 +51,21 @@ namespace MyService
                             audio.Dispose();
                         }
                     }
-                    else if (time >= 1700 && time <= 1715)
-                    {
-                        audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
-                        audio.RingerMode = RingerMode.Normal;
-                        audio.SetStreamVolume(Stream.Ring, audio.GetStreamMaxVolume(Stream.Ring), VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.Alarm, audio.GetStreamMaxVolume(Stream.Alarm), VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.Notification, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.System, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
+                }
+                else if (time >= 1700 && time <= 1730)
+                {
+                    audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+                    audio.RingerMode = RingerMode.Normal;
+                    audio.SetStreamVolume(Stream.Ring, audio.GetStreamMaxVolume(Stream.Ring), VolumeNotificationFlags.ShowUi);
+                    audio.SetStreamVolume(Stream.Alarm, audio.GetStreamMaxVolume(Stream.Alarm), VolumeNotificationFlags.ShowUi);
+                    audio.SetStreamVolume(Stream.Notification, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
+                    audio.SetStreamVolume(Stream.System, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
 
-                        if (audio != null)
-                        {
-                            audio.Dispose();
-                        }
+                    if (audio != null)
+                    {
+                        audio.Dispose();
                     }
+                }
                 }
                 else if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
                 {
