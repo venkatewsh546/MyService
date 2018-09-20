@@ -3,10 +3,8 @@ using System.Timers;
 using Android.App;
 using Android.Content;
 using Android.Hardware;
-using Android.Media;
 using Android.OS;
 using Android.Runtime;
-using Android.Telephony;
 using Android.Widget;
 
 namespace MyService
@@ -20,8 +18,6 @@ namespace MyService
         Sensor mProximity;
         PowerManager powerManager;
         static public PowerManager.WakeLock wakeLock;
-        static Timer timer;
-        AudioManager audioManager;
 
         public override IBinder OnBind(Intent intent)
         {
@@ -71,7 +67,18 @@ namespace MyService
             mProximity = mSensorManager.GetDefaultSensor(SensorType.Proximity);
             powerManager = (PowerManager)Application.ApplicationContext.GetSystemService(PowerService);
             mSensorManager.RegisterListener(this, mProximity, SensorDelay.Normal);
-           
+
+
+            NotificationChannel channel = new NotificationChannel("546546", 
+                new Java.Lang.String("MyServiceCnl"),
+                NotificationImportance.Default)
+            {
+                Description = "it will send notifications from my service"
+            };
+
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+
         }
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
@@ -83,6 +90,7 @@ namespace MyService
         {
             return;
 
+            /*
             Boolean iswiredheadset = false;
 
             try
@@ -145,6 +153,7 @@ namespace MyService
             {
                
             }
+            */
         }
 
         private void Runtask(object sender, ElapsedEventArgs e)
@@ -152,6 +161,7 @@ namespace MyService
            // wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
            // wakeLock.Acquire();
         }
+
 
         public void UnhandleException(object sender, UnhandledExceptionEventArgs e)
         {

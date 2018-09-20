@@ -2,6 +2,7 @@
 using Android.Telephony;
 using Android.App;
 using Android.Content;
+using System;
 
 namespace MyService
 {
@@ -23,24 +24,9 @@ namespace MyService
             {
                 if (state == CallState.Ringing)
                 {
-                    //AlertDialog.Builder dialog = new AlertDialog.Builder(Application.Context);
-                    //AlertDialog alert = dialog.Create();
-                    //alert.SetTitle("incomming call");
-                    //alert.SetMessage("incomming call");
-                    //alert.SetButton("OK", (c, ev) =>
-                    //{
-                    //    Toast.MakeText(Application.Context, "Deleted!", ToastLength.Short).Show();
-                    //});
-                    //alert.Window.SetType(WindowManagerTypes.Phone);
-                    //alert.Show();
-
                     powerManager = (PowerManager)Application.Context.GetSystemService(Context.PowerService);
                     MyService.wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
                     MyService.wakeLock.Acquire();
-
-                    // Application.Context.StartActivity(new Intent(Application.Context, typeof(CallListener)));
-
-
                 }
                 else if (state == CallState.Offhook)
                 {
@@ -65,9 +51,9 @@ namespace MyService
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                Utils.SendNotification("Error",ex.Message);
             }
            
         }

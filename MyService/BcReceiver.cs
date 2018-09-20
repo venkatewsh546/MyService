@@ -14,7 +14,6 @@ namespace MyService
     public class BcReceiver : BroadcastReceiver
     {
         WifiManager wifiManager;
-        static AudioManager audio;
         private PSListener pSListener;
 
         public override void OnReceive(Context context, Intent intent)
@@ -39,32 +38,14 @@ namespace MyService
 
                         if (match != null)
                         {
-                        audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
-                        audio.SetStreamVolume(Stream.Ring, 1, VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.Alarm, 0, VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.Notification, 2, VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.System, 2, VolumeNotificationFlags.ShowUi);
-                        audio.SetStreamVolume(Stream.Music, 0, VolumeNotificationFlags.ShowUi);
-
-                        if (audio != null)
-                        {
-                            audio.Dispose();
-                        }
+                            ProfileSelect("Office");
+                            SendNotification("Office Profile", "office profile selected");                      
                     }
                 }
-                else if (time >= 1700 && time <= 1730)
+                else if (time == 17)
                 {
-                    audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
-                    audio.RingerMode = RingerMode.Normal;
-                    audio.SetStreamVolume(Stream.Ring, audio.GetStreamMaxVolume(Stream.Ring), VolumeNotificationFlags.ShowUi);
-                    audio.SetStreamVolume(Stream.Alarm, audio.GetStreamMaxVolume(Stream.Alarm), VolumeNotificationFlags.ShowUi);
-                    audio.SetStreamVolume(Stream.Notification, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
-                    audio.SetStreamVolume(Stream.System, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
-
-                    if (audio != null)
-                    {
-                        audio.Dispose();
-                    }
+                        ProfileSelect("Home");
+                        SendNotification("home Profile", "home profile selected");
                 }
                 }
                 else if (intent.Action.Equals("android.intent.action.PHONE_STATE"))

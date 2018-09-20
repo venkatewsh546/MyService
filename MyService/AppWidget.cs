@@ -13,7 +13,6 @@ namespace MyService
     public class AppWidget : AppWidgetProvider
     {
         static RemoteViews remoteViews;
-        static AudioManager audio;
 
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
@@ -39,27 +38,15 @@ namespace MyService
 
         public override void OnReceive(Context context, Intent intent)
         {
-            base.OnReceive(context, intent);
+            base.OnReceive(context, intent);   
 
             if(intent.Action== "Office")
             {
-                audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
-                audio.SetStreamVolume(Stream.Ring, 1, VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.Alarm, 0, VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.Notification, 2, VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.System, 2, VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.Music, 0, VolumeNotificationFlags.ShowUi);
+                Utils.ProfileSelect("Office");
             }
             else if(intent.Action == "Home")
             {
-                audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
-                audio.RingerMode = RingerMode.Normal;
-                audio.SetStreamVolume(Stream.Ring, audio.GetStreamMaxVolume(Stream.Ring), VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.Alarm, audio.GetStreamMaxVolume(Stream.Alarm), VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.Notification, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.System, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
-                audio.SetStreamVolume(Stream.Music, audio.GetStreamMaxVolume(Stream.Music), VolumeNotificationFlags.ShowUi);
-              
+                Utils.ProfileSelect("Home");
             }
         }
 

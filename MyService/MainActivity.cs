@@ -1,18 +1,11 @@
 ﻿using Android.App;
 using Android.OS;
-using System;
 using Android.Content;
 using Android;
 using Android.Content.PM;
-using System.Threading.Tasks;
 using Android.Runtime;
 using Android.Widget;
-using Android.Support.Design.Widget;
-using Android.Views;
-using Android.App.Admin;
-using Android.Net.Wifi;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace MyService
 {
@@ -22,11 +15,25 @@ namespace MyService
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.sample_main_layout);
+
+
+            Button office = FindViewById<Button>(Resource.Id.MainOffice);
+            office.Click += delegate
+            {
+                Utils.ProfileSelect("Office");
+            };
+
+            Button buttonHome = FindViewById<Button>(Resource.Id.MainHome);
+            buttonHome.Click += delegate
+            {
+                Utils.ProfileSelect("Home");
+            };
 
             Intent backgroundService = new Intent(Application.Context, typeof(MyService));
             StartService(backgroundService);
 
-            View layout = FindViewById(Resource.Id.sample_main_layout);
+           // View layout = FindViewById(Resource.Layout.sample_main_layout);
 
             string[] chkPermissions =
              {
@@ -62,17 +69,17 @@ namespace MyService
                     Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
                     System.Environment.Exit(0);
                 });
+
                 Dialog dialog = alert.Create();
                 dialog.Show();
-
             }
             else
             {
-               Finish();
+                //Finish();
             }
 
         }
-        
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
