@@ -13,10 +13,11 @@ namespace MyService
     class MyService : Service, ISensorEventListener
     {
         private BroadcastReceiver bcReceiver;
+        public const int SERVICE_RUNNING_NOTIFICATION_ID = 836598;
 
         SensorManager mSensorManager;
         Sensor mProximity;
-        PowerManager powerManager;
+        static public PowerManager powerManager;
         static public PowerManager.WakeLock wakeLock;
 
         public override IBinder OnBind(Intent intent)
@@ -28,6 +29,26 @@ namespace MyService
         {
             //flags = StartCommandFlags.Retry;
             base.OnStartCommand(intent, flags, startId);
+
+
+            Intent mainActivity = new Intent(this, typeof(MainActivity));
+            mainActivity.SetFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
+
+            PendingIntent mainPendingIntent = PendingIntent.GetActivity(this, 0, mainActivity, 0);
+
+
+            var notification = new Notification.Builder(this, "546546")
+                                    .SetContentTitle("MyService")
+                                    .SetContentText("MyServiceNotify")
+                                    .SetSmallIcon(Resource.Drawable.widgetView)
+                                    .SetContentIntent(mainPendingIntent)
+                                    //.SetOngoing(true)
+                                    .SetAutoCancel(true)
+                                    .Build();
+
+            // Enlist this instance of the service as a foreground service
+            StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
+
             return StartCommandResult.Sticky;
         }
 
@@ -37,7 +58,7 @@ namespace MyService
             if (bcReceiver != null)
             {
                 UnregisterReceiver(bcReceiver);
-                Toast.MakeText(this, "broadcast receiver UnRegistered", ToastLength.Short).Show();
+                Utils.SendNotification("Broadcat Unregister", "broadcast receiver UnRegistered");
             }
         }
 
@@ -49,11 +70,9 @@ namespace MyService
 
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.AddAction(Intent.ActionBootCompleted);
-            intentFilter.AddAction("android.net.conn.CONNECTIVITY_CHANGE");
-            intentFilter.AddAction("android.intent.action.PHONE_STATE");
-
-
-            intentFilter.Priority = 100;
+            //intentFilter.AddAction("android.net.conn.CONNECTIVITY_CHANGE");
+            intentFilter.AddAction("android.intent.action.PHONE_STATE");           
+            intentFilter.Priority = 100;     
 
             if (bcReceiver != null)
             {
@@ -66,18 +85,7 @@ namespace MyService
             mSensorManager = (SensorManager)Application.ApplicationContext.GetSystemService(SensorService);
             mProximity = mSensorManager.GetDefaultSensor(SensorType.Proximity);
             powerManager = (PowerManager)Application.ApplicationContext.GetSystemService(PowerService);
-            mSensorManager.RegisterListener(this, mProximity, SensorDelay.Normal);
-
-
-            NotificationChannel channel = new NotificationChannel("546546", 
-                new Java.Lang.String("MyServiceCnl"),
-                NotificationImportance.Default)
-            {
-                Description = "it will send notifications from my service"
-            };
-
-            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
-            notificationManager.CreateNotificationChannel(channel);
+            mSensorManager.RegisterListener(this, mProximity, SensorDelay.Normal);           
 
         }
 

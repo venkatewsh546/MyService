@@ -17,8 +17,9 @@ namespace MyService
             mBuilder = new Notification.Builder(Application.Context, "546546");
             mBuilder.SetSmallIcon(Resource.Drawable.notification_bg_normal);
             mBuilder.SetContentTitle(title);
-            mBuilder.SetContentText(msgtxt);
+            mBuilder.SetContentText(msgtxt+" "+DateTime.Now.ToShortDateString());
             mBuilder.SetAutoCancel(true);
+
            // mBuilder.SetLargeIcon(BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.widgetView));
             mBuilder.SetStyle(new Notification.BigTextStyle().BigText(msgtxt));
 
@@ -37,6 +38,7 @@ namespace MyService
                 audio.SetStreamVolume(Stream.Notification, 2, VolumeNotificationFlags.ShowUi);
                 audio.SetStreamVolume(Stream.System, 2, VolumeNotificationFlags.ShowUi);
                 audio.SetStreamVolume(Stream.Music, 0, VolumeNotificationFlags.ShowUi);
+                SendNotification("Office Profile", "office profile selected");
             }
             else if (profile.ToLower() == "Home".ToLower())
             {
@@ -46,6 +48,7 @@ namespace MyService
                 audio.SetStreamVolume(Stream.Alarm, audio.GetStreamMaxVolume(Stream.Alarm), VolumeNotificationFlags.ShowUi);
                 audio.SetStreamVolume(Stream.Notification, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
                 audio.SetStreamVolume(Stream.System, audio.GetStreamMaxVolume(Stream.Notification), VolumeNotificationFlags.ShowUi);
+                SendNotification("home Profile", "home profile selected");
 
             }
         }

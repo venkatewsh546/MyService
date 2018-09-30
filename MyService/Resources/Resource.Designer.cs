@@ -2330,11 +2330,11 @@ namespace MyService
 			// aapt resource value: 0x7f080034
 			public const int META = 2131230772;
 			
-			// aapt resource value: 0x7f0800ae
-			public const int MainHome = 2131230894;
+			// aapt resource value: 0x7f0800af
+			public const int MainHome = 2131230895;
 			
-			// aapt resource value: 0x7f0800ad
-			public const int MainOffice = 2131230893;
+			// aapt resource value: 0x7f0800ae
+			public const int MainOffice = 2131230894;
 			
 			// aapt resource value: 0x7f080098
 			public const int OfficeButton = 2131230872;
@@ -2588,14 +2588,17 @@ namespace MyService
 			// aapt resource value: 0x7f080060
 			public const int list_item = 2131230816;
 			
-			// aapt resource value: 0x7f0800b1
-			public const int masked = 2131230897;
+			// aapt resource value: 0x7f0800ad
+			public const int mainlayout = 2131230893;
+			
+			// aapt resource value: 0x7f0800b2
+			public const int masked = 2131230898;
 			
 			// aapt resource value: 0x7f0800a0
 			public const int media_actions = 2131230880;
 			
-			// aapt resource value: 0x7f0800af
-			public const int message = 2131230895;
+			// aapt resource value: 0x7f0800b0
+			public const int message = 2131230896;
 			
 			// aapt resource value: 0x7f080030
 			public const int middle = 2131230768;
@@ -2840,8 +2843,8 @@ namespace MyService
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800b0
-			public const int visible = 2131230896;
+			// aapt resource value: 0x7f0800b1
+			public const int visible = 2131230897;
 			
 			// aapt resource value: 0x7f08003b
 			public const int withText = 2131230779;

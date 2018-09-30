@@ -2945,8 +2945,8 @@ containing a value of this type.
         public static final int FUNCTION=0x7f080033;
         public static final int HomeButton=0x7f080099;
         public static final int META=0x7f080034;
-        public static final int MainHome=0x7f0800ae;
-        public static final int MainOffice=0x7f0800ad;
+        public static final int MainHome=0x7f0800af;
+        public static final int MainOffice=0x7f0800ae;
         public static final int OfficeButton=0x7f080098;
         public static final int SHIFT=0x7f080035;
         public static final int SYM=0x7f080036;
@@ -3031,9 +3031,10 @@ containing a value of this type.
         public static final int line3=0x7f080018;
         public static final int listMode=0x7f08001c;
         public static final int list_item=0x7f080060;
-        public static final int masked=0x7f0800b1;
+        public static final int mainlayout=0x7f0800ad;
+        public static final int masked=0x7f0800b2;
         public static final int media_actions=0x7f0800a0;
-        public static final int message=0x7f0800af;
+        public static final int message=0x7f0800b0;
         public static final int middle=0x7f080030;
         public static final int mini=0x7f080052;
         public static final int multiply=0x7f080026;
@@ -3115,7 +3116,7 @@ containing a value of this type.
         public static final int up=0x7f080009;
         public static final int useLogo=0x7f080025;
         public static final int view_offset_helper=0x7f080016;
-        public static final int visible=0x7f0800b0;
+        public static final int visible=0x7f0800b1;
         public static final int withText=0x7f08003b;
         public static final int wrap_content=0x7f08002d;
     }

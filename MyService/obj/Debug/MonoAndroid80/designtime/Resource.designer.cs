@@ -2495,11 +2495,14 @@ namespace MyService
 			// aapt resource value: 0x7F0C0041
 			public const int list_item = 2131492929;
 			
-			// aapt resource value: 0x7F030005
-			public const int MainHome = 2130903045;
+			// aapt resource value: 0x7F030006
+			public const int MainHome = 2130903046;
 			
 			// aapt resource value: 0x7F030004
-			public const int MainOffice = 2130903044;
+			public const int mainlayout = 2130903044;
+			
+			// aapt resource value: 0x7F030005
+			public const int MainOffice = 2130903045;
 			
 			// aapt resource value: 0x7F0C0042
 			public const int masked = 2131492930;

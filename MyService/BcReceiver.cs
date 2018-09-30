@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Android.App;
 using Android.Content;
-using Android.Media;
-using Android.Net.Wifi;
 using Android.Telephony;
 using static MyService.Utils;
 
@@ -12,48 +8,43 @@ namespace MyService
 {
     [BroadcastReceiver]
     public class BcReceiver : BroadcastReceiver
-    {
-        WifiManager wifiManager;
+    {       
         private PSListener pSListener;
+        static bool office =true;
+        static bool home = true;
+
 
         public override void OnReceive(Context context, Intent intent)
         {
             try
             {
-                if (intent.Action.Equals("android.net.conn.CONNECTIVITY_CHANGE"))
+                if (intent.Action !=null )
+                {
+                    if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
+                    {
+                        pSListener = new PSListener();
+                        TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
+                        tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
+                    }
+                }
+                else
                 {
                     int time = Convert.ToInt32(DateTime.Now.ToString("HH"));
 
-                    if (time == 9)
+                    if(DayOfWeek.Saturday == DateTime.Now.DayOfWeek || DayOfWeek.Sunday == DateTime.Now.DayOfWeek)
                     {
-                        wifiManager = (WifiManager)(Application.Context.GetSystemService(Context.WifiService));
+                        office = false;
+                    }
 
-                        if (!wifiManager.IsWifiEnabled)
-                        {                            
-                            wifiManager.SetWifiEnabled(true);
-                        }
-
-                        IList<ScanResult> scanwifinetworks = wifiManager.ScanResults;
-                        var match = scanwifinetworks.Where(r => r.Ssid.ToLower().Contains("hpe")).FirstOrDefault();
-
-                        if (match != null)
-                        {
-                            ProfileSelect("Office");
-                            SendNotification("Office Profile", "office profile selected");                      
+                    if (time == 9 && office)
+                    {
+                        ProfileSelect("Office");
+                    }
+                    else if (time == 17 & home)
+                    {
+                        ProfileSelect("Home");
                     }
                 }
-                else if (time == 17)
-                {
-                        ProfileSelect("Home");
-                        SendNotification("home Profile", "home profile selected");
-                }
-                }
-                else if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
-                {
-                    pSListener = new PSListener();
-                    TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
-                    tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
-                }              
             }
             catch(Exception ex)
             {

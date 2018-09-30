@@ -1,3 +1,6 @@
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csprojAssemblyReference.cache
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res.flag
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csproj.CoreCompileInputs.cache
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.pdb
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.MyService.apk
@@ -17,8 +20,6 @@ C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Sup
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.v7.AppCompat.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.v7.RecyclerView.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.Vector.Drawable.dll
-C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res.flag
-C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csproj.CoreCompileInputs.cache
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csproj.CopyComplete
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.dll
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.pdb
@@ -66,4 +67,14 @@ C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\andro
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\android\assets\System.ServiceModel.Internals.pdb
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\android\assets\System.Xml.pdb
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.dll
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\Mono.Android.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\mscorlib.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.Core.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.Xml.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.ComponentModel.Composition.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.Net.Http.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.Runtime.Serialization.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\System.ServiceModel.Internals.pdb
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\Mono.Security.pdb
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\linksrc\MyService.dll.mdb
