@@ -11,8 +11,6 @@ namespace MyService
     {       
         private PSListener pSListener;
         static bool office =true;
-        static bool home = true;
-
 
         public override void OnReceive(Context context, Intent intent)
         {
@@ -25,6 +23,11 @@ namespace MyService
                         pSListener = new PSListener();
                         TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
                         tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
+                    }
+                    else if (intent.Action== Intent.ActionBootCompleted)
+                    {
+                        Intent backgroundService = new Intent(Application.Context, typeof(MyService));
+                        Application.Context.StartForegroundService(backgroundService);
                     }
                 }
                 else
@@ -40,7 +43,7 @@ namespace MyService
                     {
                         ProfileSelect("Office");
                     }
-                    else if (time == 17 & home)
+                    else if (time == 17)
                     {
                         ProfileSelect("Home");
                     }

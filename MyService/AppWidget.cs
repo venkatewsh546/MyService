@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Appwidget;
 using Android.Content;
-using Android.Media;
 using Android.Widget;
 
 

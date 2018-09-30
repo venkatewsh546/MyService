@@ -71,7 +71,8 @@ namespace MyService
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.AddAction(Intent.ActionBootCompleted);
             //intentFilter.AddAction("android.net.conn.CONNECTIVITY_CHANGE");
-            intentFilter.AddAction("android.intent.action.PHONE_STATE");           
+            intentFilter.AddAction("android.intent.action.PHONE_STATE");
+            intentFilter.AddAction(Intent.ActionBootCompleted);
             intentFilter.Priority = 100;     
 
             if (bcReceiver != null)
