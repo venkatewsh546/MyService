@@ -1,6 +1,3 @@
-C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csprojAssemblyReference.cache
-C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res.flag
-C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csproj.CoreCompileInputs.cache
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.pdb
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\MyService.MyService.apk
@@ -20,6 +17,9 @@ C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Sup
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.v7.AppCompat.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.v7.RecyclerView.dll
 C:\Users\pothugun\source\repos\MyService\MyService\bin\Debug\Xamarin.Android.Support.Vector.Drawable.dll
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csprojAssemblyReference.cache
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res.flag
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csproj.CoreCompileInputs.cache
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.csproj.CopyComplete
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.dll
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\MyService.pdb
@@ -30,6 +30,8 @@ C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res\d
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res\xml\widget_provider.xml
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res\layout\sample_main_layout.xml
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res\layout\calllistener.xml
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res\drawable\home.jpg
+C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\res\drawable\office.png
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\R.cs.flag
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\R.txt
 C:\Users\pothugun\source\repos\MyService\MyService\obj\Debug\MonoAndroid80\uploadflags.txt

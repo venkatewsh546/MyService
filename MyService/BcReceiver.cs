@@ -16,6 +16,11 @@ namespace MyService
         {
             try
             {
+                if (DayOfWeek.Saturday == DateTime.Now.DayOfWeek || DayOfWeek.Sunday == DateTime.Now.DayOfWeek)
+                {
+                    office = false;
+                }
+
                 if (intent.Action !=null )
                 {
                     if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
@@ -29,23 +34,26 @@ namespace MyService
                         Intent backgroundService = new Intent(Application.Context, typeof(MyService));
                         Application.Context.StartForegroundService(backgroundService);
                     }
+                    else if(intent.Action == Profiles.HOME || (intent.Action.ToUpper() == Profiles.HOME + "alarm".ToUpper()))
+                    {
+                        ProfileSelect(Profiles.HOME);
+                    }
+                    else if (intent.Action == Profiles.OFFICE || (intent.Action.ToUpper() == Profiles.OFFICE + "alarm".ToUpper() && office))
+                    {
+                        ProfileSelect(Profiles.OFFICE);
+                    }
                 }
                 else
                 {
                     int time = Convert.ToInt32(DateTime.Now.ToString("HH"));
 
-                    if(DayOfWeek.Saturday == DateTime.Now.DayOfWeek || DayOfWeek.Sunday == DateTime.Now.DayOfWeek)
-                    {
-                        office = false;
-                    }
-
                     if (time == 9 && office)
                     {
-                        ProfileSelect("Office");
+                        ProfileSelect(Profiles.OFFICE);
                     }
                     else if (time == 17)
                     {
-                        ProfileSelect("Home");
+                        ProfileSelect(Profiles.HOME);
                     }
                 }
             }

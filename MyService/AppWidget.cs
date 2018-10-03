@@ -22,8 +22,8 @@ namespace MyService
             ComponentName componentName = new ComponentName(Application.Context, Java.Lang.Class.FromType(typeof(AppWidget)).Name);
             
             remoteViews = new RemoteViews(context.PackageName, Resource.Layout.Main);
-            remoteViews.SetOnClickPendingIntent(Resource.Id.OfficeButton, PendingIntent(context,"Office"));
-            remoteViews.SetOnClickPendingIntent(Resource.Id.HomeButton, PendingIntent(context, "Home"));
+            remoteViews.SetOnClickPendingIntent(Resource.Id.OfficeButton, PendingIntent(context,Profiles.OFFICE));
+            remoteViews.SetOnClickPendingIntent(Resource.Id.HomeButton, PendingIntent(context, Profiles.HOME));
 
             appWidgetManager.UpdateAppWidget(componentName, remoteViews);
         }
@@ -39,13 +39,13 @@ namespace MyService
         {
             base.OnReceive(context, intent);   
 
-            if(intent.Action== "Office")
+            if(intent.Action== Profiles.OFFICE)
             {
-                Utils.ProfileSelect("Office");
+                Utils.ProfileSelect(Profiles.OFFICE);
             }
-            else if(intent.Action == "Home")
+            else if(intent.Action == Profiles.HOME)
             {
-                Utils.ProfileSelect("Home");
+                Utils.ProfileSelect(Profiles.HOME);
             }
         }
 

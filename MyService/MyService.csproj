@@ -106,7 +106,9 @@
     <Compile Include="AppWidget.cs" />
     <Compile Include="BcReceiver.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MainView.cs" />
     <Compile Include="MyService.cs" />
+    <Compile Include="profiles.cs" />
     <Compile Include="PSListener.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +152,12 @@
     <AndroidResource Include="Resources\layout\callListener.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\home.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\office.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.26.1.0.1\build\MonoAndroid80\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.26.1.0.1\build\MonoAndroid80\Xamarin.Android.Support.Annotations.targets')" />

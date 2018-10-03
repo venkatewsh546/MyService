@@ -1,5 +1,4 @@
-﻿using System;
-using Android;
+﻿using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -7,33 +6,33 @@ using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Java.Util;
+using System;
+using System.Threading.Tasks;
 
 namespace MyService
 {
     [Activity(Label = "MyService", MainLauncher = true)]
     public class MainActivity : Activity
-    {
-       
+    {       
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.sample_main_layout);
 
-
             Button office = FindViewById<Button>(Resource.Id.MainOffice);
             office.Click += delegate
             {
-                Utils.ProfileSelect("Office");
+                Utils.ProfileSelect(Profiles.OFFICE);
             };
 
             Button buttonHome = FindViewById<Button>(Resource.Id.MainHome);
             buttonHome.Click += delegate
             {
-                Utils.ProfileSelect("Home");
+                Utils.ProfileSelect(Profiles.HOME);
             };
 
-
-            NotificationChannel channel = new NotificationChannel("546546",new Java.Lang.String("MyServiceCnl"),NotificationImportance.Low)
+            NotificationChannel channel 
+                = new NotificationChannel("546546",new Java.Lang.String("MyServiceCnl"),NotificationImportance.Low)
             {
                 Description = "it will send notifications from my service"
             };
@@ -41,12 +40,20 @@ namespace MyService
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.CreateNotificationChannel(channel);
 
-            Intent backgroundService = new Intent(Application.Context, typeof(MyService));
-            StartForegroundService(backgroundService);
+
+            Task.Run(async () => { await CreateService();});
 
             ScheduleAlarm();
             RequestPermissions();
 
+        }
+
+        private Task CreateService()
+        {
+            Intent backgroundService = new Intent(Application.Context, typeof(MyService));
+            StartForegroundService(backgroundService);
+
+            return null;
         }
 
         private void RequestPermissions()
@@ -105,8 +112,6 @@ namespace MyService
                     RequestPermissions(new string[]
                     { Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation}, 2);
 
-
-
                 });
                 alert.SetNegativeButton("Cancel", (senderAlert, args) =>
                 {
@@ -123,23 +128,25 @@ namespace MyService
         private void ScheduleAlarm()
         {
 
-            Java.Util.Calendar amcal = Java.Util.Calendar.GetInstance(Java.Util.TimeZone.Default);
-            amcal.Set(Java.Util.CalendarField.HourOfDay, 9);
-            amcal.Set(Java.Util.CalendarField.Minute, 10);
-            amcal.Set(Java.Util.CalendarField.Second, 2);
+            Calendar amcal = Calendar.GetInstance(TimeZone.Default);
+            amcal.Set(CalendarField.HourOfDay, 9);
+            amcal.Set(CalendarField.Minute, 10);
+            amcal.Set(CalendarField.Second, 2);
 
             Intent officeprofile = new Intent(this, typeof(BcReceiver));
+            officeprofile.SetAction(Profiles.OFFICE+"alarm");
             PendingIntent ampi = PendingIntent.GetBroadcast(this, 0, officeprofile, PendingIntentFlags.CancelCurrent);
             AlarmManager officealarmManager = (AlarmManager)GetSystemService(AlarmService);
             officealarmManager.SetRepeating(AlarmType.Rtc, amcal.TimeInMillis, AlarmManager.IntervalDay, ampi);
 
 
-            Java.Util.Calendar pmcal = Java.Util.Calendar.GetInstance(Java.Util.TimeZone.Default);
-            pmcal.Set(Java.Util.CalendarField.HourOfDay, 17);
-            pmcal.Set(Java.Util.CalendarField.Minute, 5);
-            pmcal.Set(Java.Util.CalendarField.Second, 2);
+            Calendar pmcal = Calendar.GetInstance(TimeZone.Default);
+            pmcal.Set(CalendarField.HourOfDay, 17);
+            pmcal.Set(CalendarField.Minute, 5);
+            pmcal.Set(CalendarField.Second, 2);
 
             Intent homeprofile = new Intent(this, typeof(BcReceiver));
+            homeprofile.SetAction(Profiles.HOME + "alarm");
             PendingIntent Ofpi = PendingIntent.GetBroadcast(this, 1, homeprofile, PendingIntentFlags.CancelCurrent);
             AlarmManager homealarmManager = (AlarmManager)GetSystemService(AlarmService);
             homealarmManager.SetRepeating(AlarmType.Rtc, pmcal.TimeInMillis, AlarmManager.IntervalDay, Ofpi);

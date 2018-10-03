@@ -1,11 +1,10 @@
-﻿using System;
-using System.Timers;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
-using Android.Widget;
+using System;
+using System.Timers;
 
 namespace MyService
 {
@@ -29,24 +28,35 @@ namespace MyService
         {
             //flags = StartCommandFlags.Retry;
             base.OnStartCommand(intent, flags, startId);
+  
+            Intent mainView = new Intent(this, typeof(MainView));
+            mainView.SetFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
+            PendingIntent mainPendingIntent = PendingIntent.GetActivity(this, 0, mainView,0);
+            
 
+            Intent homeIntent = new Intent(Application.Context, typeof(BcReceiver));
+            homeIntent.SetAction(Profiles.HOME);
+            homeIntent.PutExtra("profile", Profiles.HOME);
+            PendingIntent homePI = PendingIntent.GetBroadcast(this, 0, homeIntent, PendingIntentFlags.UpdateCurrent);                        
+            Notification.Action homeAction = new Notification.Action.Builder(Resource.Drawable.home,"HomeProfile", homePI).Build();
+         
 
-            Intent mainActivity = new Intent(this, typeof(MainActivity));
-            mainActivity.SetFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
-
-            PendingIntent mainPendingIntent = PendingIntent.GetActivity(this, 0, mainActivity, 0);
-
+            Intent officeIntent = new Intent(this, typeof(BcReceiver));
+            officeIntent.SetAction(Profiles.OFFICE);
+            officeIntent.PutExtra("profile", Profiles.OFFICE);
+            PendingIntent officePI = PendingIntent.GetBroadcast(this, 0, officeIntent, PendingIntentFlags.UpdateCurrent);
+            Notification.Action officeAction = new Notification.Action.Builder(Resource.Drawable.office,"officeProfile",officePI).Build();
 
             var notification = new Notification.Builder(this, "546546")
                                     .SetContentTitle("MyService")
                                     .SetContentText("MyServiceNotify")
                                     .SetSmallIcon(Resource.Drawable.widgetView)
                                     .SetContentIntent(mainPendingIntent)
-                                    //.SetOngoing(true)
-                                    .SetAutoCancel(true)
+                                    .AddAction(homeAction)
+                                    .AddAction(officeAction)
+                                    .SetOngoing(true)
                                     .Build();
 
-            // Enlist this instance of the service as a foreground service
             StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
 
             return StartCommandResult.Sticky;
@@ -72,7 +82,6 @@ namespace MyService
             intentFilter.AddAction(Intent.ActionBootCompleted);
             //intentFilter.AddAction("android.net.conn.CONNECTIVITY_CHANGE");
             intentFilter.AddAction("android.intent.action.PHONE_STATE");
-            intentFilter.AddAction(Intent.ActionBootCompleted);
             intentFilter.Priority = 100;     
 
             if (bcReceiver != null)
