@@ -10,52 +10,30 @@ namespace MyService
     public class BcReceiver : BroadcastReceiver
     {       
         private PSListener pSListener;
-        static bool office =true;
 
         public override void OnReceive(Context context, Intent intent)
         {
             try
             {
-                if (DayOfWeek.Saturday == DateTime.Now.DayOfWeek || DayOfWeek.Sunday == DateTime.Now.DayOfWeek)
+                if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
                 {
-                    office = false;
+                    pSListener = new PSListener();
+                    TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
+                    tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
                 }
-
-                if (intent.Action !=null )
+                else if (intent.Action== Intent.ActionBootCompleted)
                 {
-                    if (intent.Action.Equals("android.intent.action.PHONE_STATE"))
-                    {
-                        pSListener = new PSListener();
-                        TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
-                        tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
-                    }
-                    else if (intent.Action== Intent.ActionBootCompleted)
-                    {
-                        Intent backgroundService = new Intent(Application.Context, typeof(MyService));
-                        Application.Context.StartForegroundService(backgroundService);
-                    }
-                    else if(intent.Action == Profiles.HOME || (intent.Action.ToUpper() == Profiles.HOME + "alarm".ToUpper()))
-                    {
-                        ProfileSelect(Profiles.HOME);
-                    }
-                    else if (intent.Action == Profiles.OFFICE || (intent.Action.ToUpper() == Profiles.OFFICE + "alarm".ToUpper() && office))
-                    {
-                        ProfileSelect(Profiles.OFFICE);
-                    }
+                    Intent backgroundService = new Intent(Application.Context, typeof(MyService));
+                    Application.Context.StartForegroundService(backgroundService);
                 }
-                else
+                else if(intent.Action == Profiles.HOME)
                 {
-                    int time = Convert.ToInt32(DateTime.Now.ToString("HH"));
-
-                    if (time == 9 && office)
-                    {
-                        ProfileSelect(Profiles.OFFICE);
-                    }
-                    else if (time == 17)
-                    {
-                        ProfileSelect(Profiles.HOME);
-                    }
+                    ProfileSelect(Profiles.HOME);
                 }
+                else if (intent.Action == Profiles.OFFICE)
+                {
+                    ProfileSelect(Profiles.OFFICE);
+                }               
             }
             catch(Exception ex)
             {

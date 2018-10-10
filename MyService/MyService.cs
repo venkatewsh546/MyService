@@ -17,7 +17,7 @@ namespace MyService
         SensorManager mSensorManager;
         Sensor mProximity;
         static public PowerManager powerManager;
-        static public PowerManager.WakeLock wakeLock;
+       // static public PowerManager.WakeLock wakeLock;
 
         public override IBinder OnBind(Intent intent)
         {
@@ -29,9 +29,9 @@ namespace MyService
             //flags = StartCommandFlags.Retry;
             base.OnStartCommand(intent, flags, startId);
   
-            Intent mainView = new Intent(this, typeof(MainView));
-            mainView.SetFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
-            PendingIntent mainPendingIntent = PendingIntent.GetActivity(this, 0, mainView,0);
+            Intent mainActivity = new Intent(this, typeof(MainActivity));
+            mainActivity.SetFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
+            PendingIntent mainPendingIntent = PendingIntent.GetActivity(this, 0, mainActivity,0);
             
 
             Intent homeIntent = new Intent(Application.Context, typeof(BcReceiver));

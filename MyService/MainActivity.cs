@@ -6,7 +6,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Java.Util;
-using System;
 using System.Threading.Tasks;
 
 namespace MyService
@@ -45,7 +44,6 @@ namespace MyService
 
             ScheduleAlarm();
             RequestPermissions();
-
         }
 
         private Task CreateService()
@@ -127,30 +125,27 @@ namespace MyService
 
         private void ScheduleAlarm()
         {
-
-            Calendar amcal = Calendar.GetInstance(TimeZone.Default);
+            Calendar amcal = Calendar.GetInstance(Java.Util.TimeZone.Default);
             amcal.Set(CalendarField.HourOfDay, 9);
             amcal.Set(CalendarField.Minute, 10);
             amcal.Set(CalendarField.Second, 2);
 
             Intent officeprofile = new Intent(this, typeof(BcReceiver));
-            officeprofile.SetAction(Profiles.OFFICE+"alarm");
+            officeprofile.SetAction(Profiles.OFFICE);
             PendingIntent ampi = PendingIntent.GetBroadcast(this, 0, officeprofile, PendingIntentFlags.CancelCurrent);
             AlarmManager officealarmManager = (AlarmManager)GetSystemService(AlarmService);
             officealarmManager.SetRepeating(AlarmType.Rtc, amcal.TimeInMillis, AlarmManager.IntervalDay, ampi);
 
-
-            Calendar pmcal = Calendar.GetInstance(TimeZone.Default);
+            Calendar pmcal = Calendar.GetInstance(Java.Util.TimeZone.Default);
             pmcal.Set(CalendarField.HourOfDay, 17);
             pmcal.Set(CalendarField.Minute, 5);
             pmcal.Set(CalendarField.Second, 2);
 
             Intent homeprofile = new Intent(this, typeof(BcReceiver));
-            homeprofile.SetAction(Profiles.HOME + "alarm");
+            homeprofile.SetAction(Profiles.HOME);
             PendingIntent Ofpi = PendingIntent.GetBroadcast(this, 1, homeprofile, PendingIntentFlags.CancelCurrent);
             AlarmManager homealarmManager = (AlarmManager)GetSystemService(AlarmService);
             homealarmManager.SetRepeating(AlarmType.Rtc, pmcal.TimeInMillis, AlarmManager.IntervalDay, Ofpi);
-
 
         }
 
@@ -200,6 +195,7 @@ namespace MyService
                         }
                         return;
                     }
+
             }
         }
     }

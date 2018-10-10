@@ -16,19 +16,22 @@ namespace MyService
             {    
                 if (state == CallState.Ringing)
                 {
-                    if (MyService.wakeLock != null)
-                    {
-                        MyService.powerManager = (PowerManager)Application.Context.GetSystemService(Context.PowerService);
-                        MyService.wakeLock = MyService.powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
-                        MyService.wakeLock.Acquire();
-                    }
+                    //if (MyService.wakeLock != null)
+                    //{
+                    //    MyService.powerManager = (PowerManager)Application.Context.GetSystemService(Context.PowerService);
+                    //    MyService.wakeLock = MyService.powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
+                    //    MyService.wakeLock.Acquire();
+                    //}
+
+                    Intent intent = new Intent(Application.Context, typeof(EmptyActivity));
+                    Application.Context.StartActivity(intent);
                 }
                 else if (state == CallState.Idle)
                 {
-                    if (MyService.wakeLock != null)
-                    {
-                        MyService.wakeLock.Release();
-                    }
+                    //if (MyService.wakeLock != null)
+                    //{
+                    //    MyService.wakeLock.Release();
+                    //}
                 }
             }
             catch(Exception ex)

@@ -35,8 +35,8 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:label="MainView" android:name="md5ec2f35fb326caf4b33d1b1f04b78961a.MainView" />
     <service android:name="md5ec2f35fb326caf4b33d1b1f04b78961a.MyService" />
+    <activity android:label="EmptyActivity" android:name="md5ec2f35fb326caf4b33d1b1f04b78961a.EmptyActivity" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="MyService.MyService.mono.MonoRuntimeProvider.__mono_init__" />
     <!--suppress ExportedReceiver-->
     <receiver android:name="mono.android.Seppuku">
