@@ -6,7 +6,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Java.Util;
-using System.Threading.Tasks;
 
 namespace MyService
 {
@@ -21,13 +20,13 @@ namespace MyService
             Button office = FindViewById<Button>(Resource.Id.MainOffice);
             office.Click += delegate
             {
-                Utils.ProfileSelect(Profiles.OFFICE);
+                Utils.ProfileSelect(ProfileName.OFFICE);
             };
 
             Button buttonHome = FindViewById<Button>(Resource.Id.MainHome);
             buttonHome.Click += delegate
             {
-                Utils.ProfileSelect(Profiles.HOME);
+                Utils.ProfileSelect(ProfileName.HOME);
             };
 
             NotificationChannel channel 
@@ -40,18 +39,18 @@ namespace MyService
             notificationManager.CreateNotificationChannel(channel);
 
 
-            Task.Run(async () => { await CreateService();});
+            //Task.Run(async () => { await CreateService();});
+            Intent backgroundService = new Intent(Application.Context, typeof(MyService));
+            StartForegroundService(backgroundService);
 
             ScheduleAlarm();
             RequestPermissions();
         }
 
-        private Task CreateService()
+        public void CreateService()
         {
             Intent backgroundService = new Intent(Application.Context, typeof(MyService));
             StartForegroundService(backgroundService);
-
-            return null;
         }
 
         private void RequestPermissions()
@@ -120,7 +119,6 @@ namespace MyService
                 Dialog dialog = alert.Create();
                 dialog.Show();
             }
-
         }
 
         private void ScheduleAlarm()
@@ -131,7 +129,7 @@ namespace MyService
             amcal.Set(CalendarField.Second, 2);
 
             Intent officeprofile = new Intent(this, typeof(BcReceiver));
-            officeprofile.SetAction(Profiles.OFFICE);
+            officeprofile.SetAction(ProfileName.OFFICE);
             PendingIntent ampi = PendingIntent.GetBroadcast(this, 0, officeprofile, PendingIntentFlags.CancelCurrent);
             AlarmManager officealarmManager = (AlarmManager)GetSystemService(AlarmService);
             officealarmManager.SetRepeating(AlarmType.Rtc, amcal.TimeInMillis, AlarmManager.IntervalDay, ampi);
@@ -142,7 +140,7 @@ namespace MyService
             pmcal.Set(CalendarField.Second, 2);
 
             Intent homeprofile = new Intent(this, typeof(BcReceiver));
-            homeprofile.SetAction(Profiles.HOME);
+            homeprofile.SetAction(ProfileName.HOME);
             PendingIntent Ofpi = PendingIntent.GetBroadcast(this, 1, homeprofile, PendingIntentFlags.CancelCurrent);
             AlarmManager homealarmManager = (AlarmManager)GetSystemService(AlarmService);
             homealarmManager.SetRepeating(AlarmType.Rtc, pmcal.TimeInMillis, AlarmManager.IntervalDay, Ofpi);

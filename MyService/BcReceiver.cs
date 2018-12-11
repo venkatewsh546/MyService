@@ -26,13 +26,13 @@ namespace MyService
                     Intent backgroundService = new Intent(Application.Context, typeof(MyService));
                     Application.Context.StartForegroundService(backgroundService);
                 }
-                else if(intent.Action == Profiles.HOME)
+                else if(intent.Action == ProfileName.HOME)
                 {
-                    ProfileSelect(Profiles.HOME);
+                    ProfileSelect(ProfileName.HOME);
                 }
-                else if (intent.Action == Profiles.OFFICE)
+                else if (intent.Action == ProfileName.OFFICE)
                 {
-                    ProfileSelect(Profiles.OFFICE);
+                    ProfileSelect(ProfileName.OFFICE);
                 }               
             }
             catch(Exception ex)

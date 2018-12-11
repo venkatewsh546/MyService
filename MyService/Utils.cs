@@ -28,9 +28,9 @@ namespace MyService
 
         }     
 
-        public static void ProfileSelect(String profile)
+        public static void ProfileSelect(string profile)
         {
-            if (profile.ToLower() == Profiles.OFFICE.ToLower())
+            if (profile.ToLower() == ProfileName.OFFICE.ToLower())
             {
                 audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
                 audio.SetStreamVolume(Stream.Ring, 1, VolumeNotificationFlags.ShowUi);
@@ -40,7 +40,7 @@ namespace MyService
                 audio.SetStreamVolume(Stream.Music, 0, VolumeNotificationFlags.ShowUi);
                 SendNotification("Office Profile", "selected");
             }
-            else if (profile.ToLower() == Profiles.HOME.ToLower())
+            else if (profile.ToLower() == ProfileName.HOME.ToLower())
             {
                 audio = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
                 audio.RingerMode = RingerMode.Normal;

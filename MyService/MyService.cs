@@ -1,23 +1,14 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Hardware;
 using Android.OS;
-using Android.Runtime;
-using System;
-using System.Timers;
 
 namespace MyService
 {
     [Service]
-    class MyService : Service, ISensorEventListener
+    class MyService : Service
     {
         private BroadcastReceiver bcReceiver;
         public const int SERVICE_RUNNING_NOTIFICATION_ID = 836598;
-
-        SensorManager mSensorManager;
-        Sensor mProximity;
-        static public PowerManager powerManager;
-       // static public PowerManager.WakeLock wakeLock;
 
         public override IBinder OnBind(Intent intent)
         {
@@ -35,15 +26,15 @@ namespace MyService
             
 
             Intent homeIntent = new Intent(Application.Context, typeof(BcReceiver));
-            homeIntent.SetAction(Profiles.HOME);
-            homeIntent.PutExtra("profile", Profiles.HOME);
+            homeIntent.SetAction(ProfileName.HOME);
+            homeIntent.PutExtra("profile", ProfileName.HOME);
             PendingIntent homePI = PendingIntent.GetBroadcast(this, 0, homeIntent, PendingIntentFlags.UpdateCurrent);                        
             Notification.Action homeAction = new Notification.Action.Builder(Resource.Drawable.home,"HomeProfile", homePI).Build();
          
 
             Intent officeIntent = new Intent(this, typeof(BcReceiver));
-            officeIntent.SetAction(Profiles.OFFICE);
-            officeIntent.PutExtra("profile", Profiles.OFFICE);
+            officeIntent.SetAction(ProfileName.OFFICE);
+            officeIntent.PutExtra("profile", ProfileName.OFFICE);
             PendingIntent officePI = PendingIntent.GetBroadcast(this, 0, officeIntent, PendingIntentFlags.UpdateCurrent);
             Notification.Action officeAction = new Notification.Action.Builder(Resource.Drawable.office,"officeProfile",officePI).Build();
 
@@ -59,28 +50,25 @@ namespace MyService
 
             StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
 
-            return StartCommandResult.Sticky;
+            return StartCommandResult.Sticky;           
+
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (bcReceiver != null)
-            {
-                UnregisterReceiver(bcReceiver);
-                Utils.SendNotification("Broadcat Unregister", "broadcast receiver UnRegistered");
-            }
+
+            Intent broadcastIntent = new Intent(this, typeof(MyService));
+            SendBroadcast(broadcastIntent);
+
         }
 
         public override void OnCreate()
         {
-            base.OnCreate();
-            
-            AppDomain.CurrentDomain.UnhandledException += UnhandleException;
+            base.OnCreate();  
 
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.AddAction(Intent.ActionBootCompleted);
-            //intentFilter.AddAction("android.net.conn.CONNECTIVITY_CHANGE");
             intentFilter.AddAction("android.intent.action.PHONE_STATE");
             intentFilter.Priority = 100;     
 
@@ -92,104 +80,6 @@ namespace MyService
             bcReceiver = new BcReceiver();
             RegisterReceiver(bcReceiver, intentFilter);
 
-            mSensorManager = (SensorManager)Application.ApplicationContext.GetSystemService(SensorService);
-            mProximity = mSensorManager.GetDefaultSensor(SensorType.Proximity);
-            powerManager = (PowerManager)Application.ApplicationContext.GetSystemService(PowerService);
-            mSensorManager.RegisterListener(this, mProximity, SensorDelay.Normal);           
-
-        }
-
-        public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
-        {
-            return;
-        }
-
-        public void OnSensorChanged(SensorEvent e)
-        {
-            return;
-
-            /*
-            Boolean iswiredheadset = false;
-
-            try
-            {
-                audioManager  = (AudioManager)Application.Context.GetSystemService(AudioService);
-
-                AudioDeviceInfo[] audioDeviceInfos = audioManager.GetDevices(GetDevicesTargets.Outputs);
-
-               foreach(AudioDeviceInfo adi in audioDeviceInfos)
-                {
-                    if ( adi.Type == AudioDeviceType.WiredHeadset 
-                        || adi.Type == AudioDeviceType.BluetoothA2dp 
-                        || adi.Type == AudioDeviceType.WiredHeadphones 
-                        || adi.Type == AudioDeviceType.UsbHeadset 
-                        || adi.Type == AudioDeviceType.AuxLine 
-                       )
-                    {
-                        iswiredheadset = true;
-                    }
-                }               
-
-                if (!audioManager.IsMusicActive)
-                {
-                    if (iswiredheadset)
-                    {
-                        return;
-                    }
-                    if (Convert.ToInt32(Math.Ceiling(e.Values[0])) == 0)
-                    {
-                        if (timer == null)
-                        {
-                            timer = new Timer
-                            {
-                                Interval = 0.5 * 1000
-                            };
-                            timer.Elapsed += Runtask;
-                            timer.Enabled = true;
-                            timer.AutoReset = false;
-                        }
-                    }
-                    else
-                    {
-                        if (timer != null)
-                        {
-                            timer.Stop();
-                            timer.Dispose();
-                            timer = null;
-
-                        }
-
-                        if (wakeLock != null)
-                        {
-                            wakeLock.Release();
-
-                        }
-                    }
-                }
-            }
-            catch
-            {
-               
-            }
-            */
-        }
-
-        private void Runtask(object sender, ElapsedEventArgs e)
-        {
-           // wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
-           // wakeLock.Acquire();
-        }
-
-
-        public void UnhandleException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Intent intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.ClearTask | ActivityFlags.NewTask);
-            PendingIntent pendingIntent = PendingIntent.GetActivity(new Application().ApplicationContext, 0, intent, PendingIntentFlags.OneShot);
-
-            AlarmManager mgr = (AlarmManager)Application.ApplicationContext.GetSystemService(Context.AlarmService);
-            mgr.Set(AlarmType.Rtc, DateTime.Now.Millisecond + 4000, pendingIntent);           
-            System.Environment.Exit(2);
-        }
+        }   
     }
 }

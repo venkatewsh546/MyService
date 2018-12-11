@@ -3,40 +3,32 @@ using Android.Content;
 using Android.OS;
 using Android.Telephony;
 using System;
+using System.Threading;
 
 namespace MyService
 {
     public class PSListener : PhoneStateListener
     {
+        public static PowerManager powerManager;
+        public static PowerManager.WakeLock wakeLock;
+
         public override void OnCallStateChanged(CallState state, string incomingNumber)
         {
-            base.OnCallStateChanged(state, incomingNumber);            
+            base.OnCallStateChanged(state, incomingNumber);
 
             try
-            {    
+            {
                 if (state == CallState.Ringing)
                 {
-                    //if (MyService.wakeLock != null)
-                    //{
-                    //    MyService.powerManager = (PowerManager)Application.Context.GetSystemService(Context.PowerService);
-                    //    MyService.wakeLock = MyService.powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
-                    //    MyService.wakeLock.Acquire();
-                    //}
-
-                    Intent intent = new Intent(Application.Context, typeof(EmptyActivity));
-                    Application.Context.StartActivity(intent);
+                    powerManager = (PowerManager)Application.Context.GetSystemService(Context.PowerService);
+                    wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "sleep");
+                    wakeLock.Acquire(10000);
                 }
-                else if (state == CallState.Idle)
-                {
-                    //if (MyService.wakeLock != null)
-                    //{
-                    //    MyService.wakeLock.Release();
-                    //}
-                }
+                    
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Utils.SendNotification("Error",ex.Message);
+                Utils.SendNotification("Error", ex.Message);
             }
            
         }
