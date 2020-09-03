@@ -2,11 +2,13 @@
 using Android.App;
 using Android.Content;
 using Android.Telephony;
-using static MyService.Utils;
+using static myservice.Utils;
 
-namespace MyService
+namespace myservice
 {
-    [BroadcastReceiver]
+    [BroadcastReceiver(Label = "BcReceiver", Name = "com.android.vtsapps.myservice.BcReceiver", Enabled = true, Exported = true, DirectBootAware = true)]
+    [IntentFilter(new string[] { "android.intent.action.PHONE_STATE"})]
+
     public class BcReceiver : BroadcastReceiver
     {       
         private PSListener pSListener;
@@ -21,11 +23,6 @@ namespace MyService
                     TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Context.TelephonyService);
                     tm.Listen(pSListener, PhoneStateListenerFlags.CallState);
                 }
-                else if (intent.Action== Intent.ActionBootCompleted)
-                {
-                    Intent backgroundService = new Intent(Application.Context, typeof(MyService));
-                    Application.Context.StartForegroundService(backgroundService);
-                }
                 else if(intent.Action == ProfileName.HOME)
                 {
                     ProfileSelect(ProfileName.HOME);
@@ -33,7 +30,12 @@ namespace MyService
                 else if (intent.Action == ProfileName.OFFICE)
                 {
                     ProfileSelect(ProfileName.OFFICE);
-                }               
+                }
+                else 
+                {
+                    Intent backgroundService = new Intent(Application.Context, typeof(SlaveService));
+                    Application.Context.StartForegroundService(backgroundService);
+                }
             }
             catch(Exception ex)
             {

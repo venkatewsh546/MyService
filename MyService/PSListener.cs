@@ -3,9 +3,8 @@ using Android.Content;
 using Android.OS;
 using Android.Telephony;
 using System;
-using System.Threading;
 
-namespace MyService
+namespace myservice
 {
     public class PSListener : PhoneStateListener
     {

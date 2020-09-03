@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyService
+namespace myservice
 {
     public class ProfileName
     {

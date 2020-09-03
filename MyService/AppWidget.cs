@@ -4,7 +4,7 @@ using Android.Content;
 using Android.Widget;
 
 
-namespace MyService
+namespace myservice
 {
     [BroadcastReceiver(Label = "AppWidgetbcr")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]

@@ -4,20 +4,35 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Widget;
-using Java.Util;
+using Java.Lang;
+using System;
+using System.Threading.Tasks;
 
-namespace MyService
+namespace myservice
 {
-    [Activity(Label = "MyService", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Name = "com.android.vtsapps.myservice.MainActivity", MainLauncher = true)]
     public class MainActivity : Activity
-    {       
+    {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.sample_main_layout);
 
-            Button office = FindViewById<Button>(Resource.Id.MainOffice);
+            IRestartActivity restartService = new RestartService();
+
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.PutExtra("crash", true);
+            intent.AddFlags(ActivityFlags.ClearTop |
+                            ActivityFlags.ClearTask |
+                            ActivityFlags.NewTask);
+
+            AndroidEnvironment.UnhandledExceptionRaiser += (sender, e) => { restartService.RestartActivity(intent); };
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => { restartService.RestartActivity(intent); };
+            TaskScheduler.UnobservedTaskException += (sender, e) => { restartService.RestartActivity(intent); };
+
+            Button office = FindViewById<Button>(id: Resource.Id.MainOffice);
             office.Click += delegate
             {
                 Utils.ProfileSelect(ProfileName.OFFICE);
@@ -29,33 +44,47 @@ namespace MyService
                 Utils.ProfileSelect(ProfileName.HOME);
             };
 
-            NotificationChannel channel 
-                = new NotificationChannel("546546",new Java.Lang.String("MyServiceCnl"),NotificationImportance.Low)
+            EditText whatsappno = FindViewById<EditText>(Resource.Id.whatsappno);
+
+            Button openurl = FindViewById<Button>(Resource.Id.openurl);
+            openurl.Click += delegate
             {
-                Description = "it will send notifications from my service"
+                if (!string.IsNullOrEmpty(whatsappno.Text))
+                {
+                    var uri = Android.Net.Uri.Parse("https://api.whatsapp.com/send?phone=" + whatsappno.Text.Replace("+", ""));
+                    StartActivity(new Intent(Intent.ActionView, uri));
+                }
             };
 
+            RequestPermissions();
+
+            CreateNotificationChannel();
+
+            CreateService();
+
+        }
+
+        private void CreateNotificationChannel()
+        {
+            NotificationChannel channel
+                = new NotificationChannel("546546", new Java.Lang.String("myserviceCnl"), NotificationImportance.Low)
+                {
+                    Description = "it will send notifications from my service"
+                };
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.CreateNotificationChannel(channel);
-
-
-            //Task.Run(async () => { await CreateService();});
-            Intent backgroundService = new Intent(Application.Context, typeof(MyService));
-            StartForegroundService(backgroundService);
-
-            ScheduleAlarm();
-            RequestPermissions();
         }
 
         public void CreateService()
         {
-            Intent backgroundService = new Intent(Application.Context, typeof(MyService));
+            Intent backgroundService = new Intent(Application.Context, typeof(SlaveService));
             StartForegroundService(backgroundService);
         }
 
         private void RequestPermissions()
         {
-            if (CheckSelfPermission(Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadPhoneState) != (int)Permission.Granted ||
+                ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted )
             {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.SetTitle("requesting permissions");
@@ -63,87 +92,23 @@ namespace MyService
                 alert.SetPositiveButton("ok", (senderAlert, args) =>
                 {
                     RequestPermissions(new string[]
-                    { Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage}, 0);
+                    {   Manifest.Permission.ReadPhoneState,
+                        Manifest.Permission.ModifyPhoneState,
+                        Manifest.Permission.WriteExternalStorage,
+                         Manifest.Permission.ReadExternalStorage,
+                         Manifest.Permission.ReceiveBootCompleted
+                    }, 0);
 
                 });
                 alert.SetNegativeButton("Cancel", (senderAlert, args) =>
                 {
-                    Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
+                    Toast.MakeText(this, "Permission Not Granted", ToastLength.Short);
                     System.Environment.Exit(0);
                 });
 
                 Dialog dialog = alert.Create();
                 dialog.Show();
             }
-
-
-            if (CheckSelfPermission(Manifest.Permission.ReadPhoneState) != (int)Permission.Granted)
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetTitle("requesting permissions");
-                alert.SetMessage("requesting permissions");
-                alert.SetPositiveButton("ok", (senderAlert, args) =>
-                {
-                    RequestPermissions(new string[]
-                    { Manifest.Permission.ReadPhoneState,Manifest.Permission.ModifyPhoneState}, 1);
-
-                });
-                alert.SetNegativeButton("Cancel", (senderAlert, args) =>
-                {
-                    Toast.MakeText(this, "phone Permission Not Granted", ToastLength.Short);
-                    System.Environment.Exit(0);
-                });
-
-                Dialog dialog = alert.Create();
-                dialog.Show();
-            }
-
-
-            if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != (int)Permission.Granted)
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetTitle("requesting permissions");
-                alert.SetMessage("requesting permissions");
-                alert.SetPositiveButton("ok", (senderAlert, args) =>
-                {
-                    RequestPermissions(new string[]
-                    { Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation}, 2);
-
-                });
-                alert.SetNegativeButton("Cancel", (senderAlert, args) =>
-                {
-                    Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
-                    System.Environment.Exit(0);
-                });
-
-                Dialog dialog = alert.Create();
-                dialog.Show();
-            }
-        }
-
-        private void ScheduleAlarm()
-        {
-            Calendar amcal = Calendar.GetInstance(Java.Util.TimeZone.Default);
-            amcal.Set(CalendarField.HourOfDay, 9);
-            amcal.Set(CalendarField.Minute, 10);
-            amcal.Set(CalendarField.Second, 2);
-
-            Intent officeprofile = new Intent(this, typeof(BcReceiver));
-            officeprofile.SetAction(ProfileName.OFFICE);
-            PendingIntent ampi = PendingIntent.GetBroadcast(this, 0, officeprofile, PendingIntentFlags.CancelCurrent);
-            AlarmManager officealarmManager = (AlarmManager)GetSystemService(AlarmService);
-            officealarmManager.SetRepeating(AlarmType.Rtc, amcal.TimeInMillis, AlarmManager.IntervalDay, ampi);
-
-            Calendar pmcal = Calendar.GetInstance(Java.Util.TimeZone.Default);
-            pmcal.Set(CalendarField.HourOfDay, 17);
-            pmcal.Set(CalendarField.Minute, 5);
-            pmcal.Set(CalendarField.Second, 2);
-
-            Intent homeprofile = new Intent(this, typeof(BcReceiver));
-            homeprofile.SetAction(ProfileName.HOME);
-            PendingIntent Ofpi = PendingIntent.GetBroadcast(this, 1, homeprofile, PendingIntentFlags.CancelCurrent);
-            AlarmManager homealarmManager = (AlarmManager)GetSystemService(AlarmService);
-            homealarmManager.SetRepeating(AlarmType.Rtc, pmcal.TimeInMillis, AlarmManager.IntervalDay, Ofpi);
 
         }
 
@@ -151,49 +116,36 @@ namespace MyService
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
+            int results = 1;
+
             switch (requestCode)
             {
                 case 0:
                     {
-                        if (grantResults.Length>0 && grantResults[0] == Permission.Granted)
+                        if (grantResults.Length > 0)
                         {
-                            Toast.MakeText(this, "Storage Permission Granted", ToastLength.Short);
-                        }
-                        else
-                        {
-                            Toast.MakeText(this, "Storage Permission Not Granted", ToastLength.Short);
-                            System.Environment.Exit(0);
-                        }
-                        return;
-                    }
-                case 1:
-                    {
-                        if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
-                        {
-                            Toast.MakeText(this, "phone Permission Granted", ToastLength.Short);
-                        }
-                        else
-                        {
-                            Toast.MakeText(this, "phone Permission Not Granted", ToastLength.Short);
-                            System.Environment.Exit(0);
-                        }
-                        return;
-                    }
+                            foreach (Permission permission in grantResults)
+                            {
+                                if (permission.Equals(Permission.Granted))
+                                {
+                                    results = 0;
+                                }
+                                else
+                                {
+                                    results = 1;
+                                }
 
-                case 2:
-                    {
-                        if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
-                        {
-                            Toast.MakeText(this, "location Permission Granted", ToastLength.Short);
+                            }
+                            Toast.MakeText(this, "Permission Granted", ToastLength.Short);
                         }
-                        else
+
+                        if (results == 1)
                         {
-                            Toast.MakeText(this, "location Permission Not Granted", ToastLength.Short);
+                            Toast.MakeText(this, "some of the Permission denied", ToastLength.Short);
                             System.Environment.Exit(0);
                         }
                         return;
                     }
-
             }
         }
     }

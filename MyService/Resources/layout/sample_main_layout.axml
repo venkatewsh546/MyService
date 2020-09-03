@@ -14,4 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/MainHome" />
+
+	<EditText
+      android:id="@+id/whatsappno"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/MainHome"
+      android:layout_marginTop="61dp"
+      android:ems="10"
+      android:hint="Enter phone to send whatsapp msg" 
+	  android:inputType="number" />
+
+	 <Button
+        android:text="send msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/openurl" />
+
 </LinearLayout>
